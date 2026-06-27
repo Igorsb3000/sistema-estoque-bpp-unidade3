@@ -8,10 +8,10 @@ import java.util.Date;   // (nao usado)
 
 public class Estoque {
 
-    static String SENHA_ADMIN = "1234";  // senha do admin
+    private static final String SENHA_ADMIN = System.getenv("SENHA_ADMIN");
 
     static ArrayList<Produto> produtos = new ArrayList<>();
-    static ArrayList<String> hist = new ArrayList<>();  // historico
+    static ArrayList<Produto> hist = new ArrayList<>();  // historico
 
     static class Produto {
         String nome;
@@ -26,7 +26,7 @@ public class Estoque {
         prod.preco = p;
         prod.qtd = q;
         produtos.add(prod);
-        hist.add(n);
+        hist.add(prod);
         System.out.println("Produto adicionado!");
     }
 
@@ -119,12 +119,16 @@ public class Estoque {
             } else if (op.equals("4")) {
                 relatorio_estoque_baixo();
             } else if (op.equals("5")) {
-                System.out.print("Senha: ");
-                String s = sc.next();
-                if (s.equals(SENHA_ADMIN)) {
-                    System.out.println("Acesso liberado");
+                if (SENHA_ADMIN == null) {
+                    System.out.println("Erro: variavel de ambiente SENHA_ADMIN nao configurada.");
                 } else {
-                    System.out.println("Senha errada");
+                    System.out.print("Senha: ");
+                    String s = sc.next();
+                    if (s.equals(SENHA_ADMIN)) {
+                        System.out.println("Acesso liberado");
+                    } else {
+                        System.out.println("Senha errada");
+                    }
                 }
             } else if (op.equals("0")) {
                 break;
